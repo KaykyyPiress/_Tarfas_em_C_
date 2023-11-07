@@ -11,7 +11,9 @@ int main() {
         printf("1. Adicionar tarefa\n");
         printf("2. Deletar tarefa\n");
         printf("3. Listar todas as tarefas\n");
-        printf("4. Sair\n");
+        printf("4. Alterar tarefas\n");
+        printf("5. Filtros\n");
+        printf("9. Sair\n");
         scanf("%d", &opcao);
 
         switch(opcao) {
@@ -25,12 +27,12 @@ int main() {
                 listar_tarefas(tarefas, numero_tarefas, 20); // Lista todas as tarefas
                 break;
             case 4:
-                printf("Saindo...\n"); // encerra o programa
+                alterar_tarefas(tarefas, numero_tarefas); // Altera uma tarefa existente
                 break;
             default:
                 printf("Opcao invalida.\n"); // Exibe uma mensagem de erro caso digite uma opção errada
         }
-    } while(opcao != 4);
+    } while(opcao != 9);
 
     return 0; // Finaliza o programa
 }

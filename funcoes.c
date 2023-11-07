@@ -1,10 +1,6 @@
-//
-// Created by unifkapaula on 19/09/2023.
-//
 #include "stdio.h"
 #include "funcoes.h"
 #include <stdlib.h>
-
 
 // Salva as tarefas em um arquivo
 void salvar_tarefas(struct tarefa tarefas[], int numero_tarefas) {
@@ -88,3 +84,38 @@ void listar_tarefas(struct tarefa tarefas[], int numero_tarefas, int max_caracte
     }
 }
 
+// Altera uma tarefa existente
+void alterar_tarefas(struct tarefa tarefas[], int numero_tarefas) {
+    int indice;
+    printf("Digite o indice da tarefa a ser alterada: ");
+    scanf(" %d", &indice);
+    if(indice >= 0 && indice < numero_tarefas) {
+        int opcao;
+        printf("Selecione o campo que deseja alterar:\n");
+        printf("1. Prioridade\n");
+        printf("2. Descricao\n");
+        printf("3. Categoria\n");
+        scanf("%d", &opcao);
+        switch(opcao) {
+            case 1:
+                printf("Digite a nova prioridade: ");
+                scanf("%d", &tarefas[indice].prioridade);
+                break;
+            case 2: {
+                printf("Digite a nova descricao: ");
+                scanf(" %[^\n]s", tarefas[indice].descricao);
+                break;
+            }
+            case 3: {
+                printf("Digite a nova categoria: ");
+                scanf(" %[^\n]s", tarefas[indice].categoria);
+                break;
+            }
+            default:
+                printf("Opcao invalida.\n");
+        }
+        salvar_tarefas(tarefas, numero_tarefas);
+    } else {
+        printf("Indice invalido.\n");
+    }
+}
