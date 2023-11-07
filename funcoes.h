@@ -1,3 +1,7 @@
+//
+// Created by unifkapaula on 19/09/2023.
+//
+
 #ifndef UNTITLED1_BIBLIOTECA_H
 #define UNTITLED1_BIBLIOTECA_H
 
@@ -5,8 +9,9 @@ struct tarefa {
     int prioridade;
     char descricao[300];
     char categoria[100];
-    char estado[20]; // New field for task state
+    int max_caracteres[20];
 };
+
 
 void salvar_tarefas(struct tarefa tarefas[], int numero_tarefas);
 
@@ -15,8 +20,6 @@ int carregar_tarefas(struct tarefa tarefas[]);
 void adicionar_tarefas(struct tarefa tarefas[], int *numero_tarefas);
 
 void deletar_tarefas(struct tarefa tarefas[], int *numero_tarefas);
-
-void alterar_tarefas(struct tarefa tarefas[], int numero_tarefas);
 
 void listar_prioridade(struct tarefa tarefas[], int numero_tarefas);
 
