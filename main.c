@@ -93,8 +93,10 @@ int main() {
               }
                default:
                 printf("Opcao invalida.\n"); // Exibe uma mensagem de erro caso digite uma opção errada
+            
         }
     } while(opcao != 9);
 
     return 0; // Finaliza o programa
+    }
 }
