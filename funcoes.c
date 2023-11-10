@@ -142,3 +142,26 @@ void exportar_tarefas_por_prioridade(struct tarefa tarefas[], int numero_tarefas
     }
     fclose(fp);
 }
+
+void exportar_tarefas_por_categoria(struct tarefa tarefas[], int numero_tarefas, const char categoria[]) {
+    printf("Tarefas com categoria %s:\n", categoria);
+    printf("| %-5s | %-10s | %-*s | %-*s |\n", "ID", "Prioridade", 20, "Descricao", 20, "Categoria");
+    for(int i = 0; i < numero_tarefas; i++) {
+        if(strcmp(tarefas[i].categoria, categoria) == 0) {
+            printf("| %-5d | %-10d | %-*.*s | %-*.*s |\n", i, tarefas[i].prioridade, 20, 20, tarefas[i].descricao, 20, 20, tarefas[i].categoria);
+        }
+    }
+
+    FILE *fp;
+    fp = fopen("tarefas_por_categoria.txt", "w");
+    if(fp == NULL) {
+        printf("Erro ao abrir o arquivo.\n");
+        exit(1);
+    }
+    for(int i = 0; i < numero_tarefas; i++) {
+        if(strcmp(tarefas[i].categoria, categoria) == 0) {
+            fprintf(fp, "%d, %s, %s, %s\n", tarefas[i].prioridade, tarefas[i].categoria, tarefas[i].estado, tarefas[i].descricao);
+        }
+    }
+    fclose(fp);
+}
