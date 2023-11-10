@@ -1,7 +1,6 @@
 #include "stdio.h"
 #include "funcoes.h"
 #include <stdlib.h>
-#include <string.h>
 
 // Salva as tarefas em um arquivo
 void salvar_tarefas(struct tarefa tarefas[], int numero_tarefas) {
@@ -30,8 +29,8 @@ int carregar_tarefas(struct tarefa tarefas[]) {
 }
 
 // Adiciona uma nova tarefa à lista
-void adicionar_tarefas(struct tarefa tarefas[], int *numero_tarefas){
-    if(*numero_tarefas >= 100) {
+void adicionar_tarefas(struct tarefa tarefas[], int *numero_tarefas) {
+    if(*numero_tarefas >= 100) { // Verifica se o limite de tarefas foi atingido
         printf("Limite de tarefas atingido.\n");
         return;
     }
@@ -41,21 +40,10 @@ void adicionar_tarefas(struct tarefa tarefas[], int *numero_tarefas){
     scanf(" %[^\n]s", tarefas[*numero_tarefas].descricao);
     printf("Digite a categoria da tarefa: ");
     scanf(" %[^\n]s", tarefas[*numero_tarefas].categoria);
+    (*numero_tarefas)++;
+    salvar_tarefas(tarefas, *numero_tarefas); // Salva as tarefas atualizadas no arquivo binário
+}
 
-    while (1){
-    printf("Digite o estado da tarefa (Completo, Em andamento, Nao iniciado): ");
-    scanf(" %[^\n]s", tarefas[*numero_tarefas].estado);
-    if (strcmp(tarefas[*numero_tarefas].estado, "Completo") == 0 || strcmp(tarefas[*numero_tarefas].estado, "Em andamento") == 0 || strcmp(tarefas[*numero_tarefas].estado, "Nao iniciado") == 0) {
-                break;
-            } else {
-                printf("Estado inválido. Por favor, digite novamente.\n");
-            }
-        }
-        (*numero_tarefas)++;
-        salvar_tarefas(tarefas, *numero_tarefas);
-        printf("Tarefa Criada");
-    }
-    
 // Apaga uma tarefa da lista
 void deletar_tarefas(struct tarefa tarefas[], int *numero_tarefas) {
     int i, indice;
@@ -71,35 +59,6 @@ void deletar_tarefas(struct tarefa tarefas[], int *numero_tarefas) {
         printf("Indice invalido.\n");
     }
 }
-
-// Altera uma tarefa da lista
-void alterar_tarefas(struct tarefa tarefas[], int numero_tarefas) {
-    int indice;
-    printf("Digite o indice da tarefa a ser alterada: ");
-    scanf("%d", &indice);
-    if(indice >= 0 && indice < numero_tarefas) {
-        printf("Digite o campo a ser alterado (prioridade, descricao, categoria, estado): ");
-        char campo[20];
-        scanf("%s", campo);
-        if (strcmp(campo, "prioridade") == 0) {
-            printf("Digite a nova prioridade: ");
-            scanf("%d", &tarefas[indice].prioridade);
-        } else if (strcmp(campo, "descricao") == 0) {
-            printf("Digite a nova descricao: ");
-            scanf(" %[^\n]s", tarefas[indice].descricao);
-        } else if (strcmp(campo, "categoria") == 0) {
-            printf("Digite a nova categoria: ");
-            scanf(" %[^\n]s", tarefas[indice].categoria);
-        } else if (strcmp(campo, "estado") == 0) {
-            printf("Digite o novo estado: ");
-            scanf(" %[^\n]s", tarefas[indice].estado);
-        }
-        salvar_tarefas(tarefas, numero_tarefas);
-    } else {
-        printf("Indice invalido.\n");
-    }
-}
-
 // função para ordenar as tarefas por ordem de prioridade
 void listar_prioridade(struct tarefa tarefas[], int numero_tarefas) {
     int i, j;
@@ -119,19 +78,66 @@ void listar_tarefas(struct tarefa tarefas[], int numero_tarefas, int max_caracte
     int i;
     listar_prioridade(tarefas, numero_tarefas); // Classifica as tarefas por prioridade
     printf("Lista de tarefas:\n");
-    printf("| %-5s | %-10s | %-*s | %-*s | %-*s\n", "ID", "Prioridade", max_caracteres, "Descricao", max_caracteres, "Categoria", max_caracteres, "Estado");
+    printf("| %-5s | %-10s | %-*s | %-*s |\n", "ID", "Prioridade", max_caracteres, "Descricao", max_caracteres, "Categoria");
     for(i = 0; i < numero_tarefas; i++) {
-        printf("| %-5d | %-10d | %-*.*s | %-*.*s | %-*.*s\n", i, tarefas[i].prioridade, max_caracteres, max_caracteres, tarefas[i].descricao, max_caracteres, max_caracteres, tarefas[i].categoria, max_caracteres, max_caracteres, tarefas[i].estado);
+        printf("| %-5d | %-10d | %-*.*s | %-*.*s |\n", i, tarefas[i].prioridade, max_caracteres, max_caracteres, tarefas[i].descricao, max_caracteres, max_caracteres, tarefas[i].categoria);
     }
 }
 
-void filtrar_tarefas_por_prioridade(struct tarefa tarefas[], int numero_tarefas, int prioridade) {
+// Altera uma tarefa existente
+void alterar_tarefas(struct tarefa tarefas[], int numero_tarefas) {
+    int indice;
+    printf("Digite o indice da tarefa a ser alterada: ");
+    scanf(" %d", &indice);
+    if(indice >= 0 && indice < numero_tarefas) {
+        int opcao;
+        printf("Selecione o campo que deseja alterar:\n");
+        printf("1. Prioridade\n");
+        printf("2. Descricao\n");
+        printf("3. Categoria\n");
+        scanf("%d", &opcao);
+        switch(opcao) {
+            case 1:
+                printf("Digite a nova prioridade: ");
+                scanf("%d", &tarefas[indice].prioridade);
+                break;
+            case 2: {
+                printf("Digite a nova descricao: ");
+                scanf(" %[^\n]s", tarefas[indice].descricao);
+                break;
+            }
+            case 3: {
+                printf("Digite a nova categoria: ");
+                scanf(" %[^\n]s", tarefas[indice].categoria);
+                break;
+            }
+            default:
+                printf("Opcao invalida.\n");
+        }
+        salvar_tarefas(tarefas, numero_tarefas);
+    } else {
+        printf("Indice invalido.\n");
+    }
+}
+void exportar_tarefas_por_prioridade(struct tarefa tarefas[], int numero_tarefas, int prioridade) {
     printf("Tarefas com prioridade %d:\n", prioridade);
-    for (int i = 0; i < numero_tarefas; i++) {
-        if (tarefas[i].prioridade == prioridade) {
-            printf("Descricao: %s\n", tarefas[i].descricao);
-            printf("Categoria: %s\n", tarefas[i].categoria);
-            printf("Estado: %s\n", tarefas[i].estado);
+    printf("| %-5s | %-10s | %-*s | %-*s |\n", "ID", "Prioridade", 20, "Descricao", 20, "Categoria");
+    for(int i = 0; i < numero_tarefas; i++) {
+        if(tarefas[i].prioridade == prioridade) {
+            printf("| %-5d | %-10d | %-*.*s | %-*.*s |\n", i, tarefas[i].prioridade, 20, 20, tarefas[i].descricao, 20, 20, tarefas[i].categoria);
         }
     }
+
+    FILE *fp;
+    fp = fopen("tarefas_por_prioridade.txt", "w");
+    if(fp == NULL) {
+        printf("Erro ao abrir o arquivo.\n");
+        exit(1);
+    }
+    for(int i = 0; i < numero_tarefas; i++) {
+        if(tarefas[i].prioridade == prioridade) {
+            fprintf(fp, "%d, %s, %s, %s\n", tarefas[i].prioridade, tarefas[i].categoria, tarefas[i].estado, tarefas[i].descricao);
+        }
+    }
+    fclose(fp);
 }
