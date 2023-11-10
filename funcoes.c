@@ -119,6 +119,7 @@ void alterar_tarefas(struct tarefa tarefas[], int numero_tarefas) {
         printf("Indice invalido.\n");
     }
 }
+
 void exportar_tarefas_por_prioridade(struct tarefa tarefas[], int numero_tarefas, int prioridade) {
     printf("Tarefas com prioridade %d:\n", prioridade);
     printf("| %-5s | %-10s | %-*s | %-*s |\n", "ID", "Prioridade", 20, "Descricao", 20, "Categoria");
