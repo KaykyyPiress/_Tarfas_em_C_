@@ -1,5 +1,5 @@
-#ifndef UNTITLED1_BIBLIOTECA_H
-#define UNTITLED1_BIBLIOTECA_H
+#ifndef UNTITLED1_FUNCOES_H
+#define UNTITLED1_FUNCOES_H
 
 struct tarefa {
     int prioridade;
@@ -7,6 +7,7 @@ struct tarefa {
     char categoria[100];
     char estado[20];
 };
+
 
 void salvar_tarefas(struct tarefa tarefas[], int numero_tarefas);
 
