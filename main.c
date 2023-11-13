@@ -91,12 +91,34 @@ int main() {
                   printf("Tarefas exportadas com sucesso.\n");
                   break;
               }
-               default:
+            case 7:
+              {
+                  char categoria[100];
+                  printf("Digite a categoria para exportar as tarefas: ");
+                  scanf(" %[^\n]s", categoria);
+                  exportar_tarefas_por_categoria(tarefas, numero_tarefas, categoria);
+                  printf("Tarefas exportadas com sucesso.\n");
+                  break;
+              }
+              
+            case 8:
+              {
+                  int prioridade;
+                  char categoria[100];
+                  printf("Digite a prioridade para exportar as tarefas: ");
+                  scanf("%d", &prioridade);
+                  printf("Digite a categoria para exportar as tarefas: ");
+                  scanf(" %[^\n]s", categoria);
+                  exportar_tarefas_por_prioridade_e_categoria(tarefas, numero_tarefas, prioridade, categoria);
+                  printf("Tarefas exportadas com sucesso.\n");
+                  break;
+              }
+
+            }
+            default:
                 printf("Opcao invalida.\n"); // Exibe uma mensagem de erro caso digite uma opção errada
-            
         }
     } while(opcao != 9);
 
     return 0; // Finaliza o programa
-    }
 }

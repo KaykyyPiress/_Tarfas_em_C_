@@ -59,6 +59,7 @@ void deletar_tarefas(struct tarefa tarefas[], int *numero_tarefas) {
         printf("Indice invalido.\n");
     }
 }
+
 // função para ordenar as tarefas por ordem de prioridade
 void listar_prioridade(struct tarefa tarefas[], int numero_tarefas) {
     int i, j;
@@ -119,6 +120,40 @@ void alterar_tarefas(struct tarefa tarefas[], int numero_tarefas) {
         printf("Indice invalido.\n");
     }
 }
+
+// Filtra tarefas por prioridade
+void filtrar_tarefas_por_prioridade(struct tarefa tarefas[], int numero_tarefas, int prioridade) {
+    printf("Tarefas filtradas por prioridade %d:\n", prioridade);
+    printf("| %-5s | %-10s | %-20s | %-20s |\n", "ID", "Prioridade", "Descricao", "Categoria");
+    for(int i = 0; i < numero_tarefas; i++) {
+        if(tarefas[i].prioridade == prioridade) {
+            printf("| %-5d | %-10d | %-20s | %-20s |\n", i, tarefas[i].prioridade, tarefas[i].descricao, tarefas[i].categoria);
+        }
+    }
+}
+
+// Filtra tarefas por estado
+void filtrar_tarefas_por_estado(struct tarefa tarefas[], int numero_tarefas, const char estado[]) {
+    printf("Tarefas filtradas por estado %s:\n", estado);
+    printf("| %-5s | %-10s | %-20s | %-20s |\n", "ID", "Prioridade", "Descricao", "Categoria");
+    for(int i = 0; i < numero_tarefas; i++) {
+        if(strcmp(tarefas[i].estado, estado) == 0) {
+            printf("| %-5d | %-10d | %-20s | %-20s |\n", i, tarefas[i].prioridade, tarefas[i].descricao, tarefas[i].categoria);
+        }
+    }
+}
+
+// Filtra tarefas por categoria e prioridade
+void filtrar_tarefas_por_categoria_prioridade(struct tarefa tarefas[], int numero_tarefas, int prioridade, const char categoria[]) {
+    printf("Tarefas filtradas por categoria %s e prioridade %d:\n", categoria, prioridade);
+    printf("| %-5s | %-10s | %-20s | %-20s |\n", "ID", "Prioridade", "Descricao", "Categoria");
+    for(int i = 0; i < numero_tarefas; i++) {
+        if(strcmp(tarefas[i].categoria, categoria) == 0 && tarefas[i].prioridade == prioridade) {
+            printf("| %-5d | %-10d | %-20s | %-20s |\n", i, tarefas[i].prioridade, tarefas[i].descricao, tarefas[i].categoria);
+        }
+    }
+}
+
 void exportar_tarefas_por_prioridade(struct tarefa tarefas[], int numero_tarefas, int prioridade) {
     printf("Tarefas com prioridade %d:\n", prioridade);
     printf("| %-5s | %-10s | %-*s | %-*s |\n", "ID", "Prioridade", 20, "Descricao", 20, "Categoria");
@@ -141,3 +176,54 @@ void exportar_tarefas_por_prioridade(struct tarefa tarefas[], int numero_tarefas
     }
     fclose(fp);
 }
+
+
+void exportar_tarefas_por_categoria(struct tarefa tarefas[], int numero_tarefas, const char categoria[]) {
+    printf("Tarefas com categoria %s:\n", categoria);
+    printf("| %-5s | %-10s | %-*s | %-*s |\n", "ID", "Prioridade", 20, "Descricao", 20, "Categoria");
+    for(int i = 0; i < numero_tarefas; i++) {
+        if(strcmp(tarefas[i].categoria, categoria) == 0) {
+            printf("| %-5d | %-10d | %-*.*s | %-*.*s |\n", i, tarefas[i].prioridade, 20, 20, tarefas[i].descricao, 20, 20, tarefas[i].categoria);
+        }
+    }
+
+    FILE *fp;
+    fp = fopen("tarefas_por_categoria.txt", "w");
+    if(fp == NULL) {
+        printf("Erro ao abrir o arquivo.\n");
+        exit(1);
+    }
+    for(int i = 0; i < numero_tarefas; i++) {
+        if(strcmp(tarefas[i].categoria, categoria) == 0) {
+            fprintf(fp, "%d, %s, %s, %s\n", tarefas[i].prioridade, tarefas[i].categoria, tarefas[i].estado, tarefas[i].descricao);
+        }
+    }
+    fclose(fp);
+}
+
+
+void exportar_tarefas_por_prioridade_e_categoria(struct tarefa tarefas[], int numero_tarefas, int prioridade, const char categoria[]) {
+    printf("Tarefas com categoria %s e prioridade %d:\n", categoria, prioridade);
+    printf("| %-5s | %-10s | %-*s | %-*s |\n", "ID", "Prioridade", 20, "Descricao", 20, "Categoria");
+    for(int i = 0; i < numero_tarefas; i++) {
+        if (tarefas[i].prioridade == prioridade && strcmp(tarefas[i].categoria, categoria) == 0) {
+            printf("| %-5d | %-10d | %-*.*s | %-*.*s |\n", i, tarefas[i].prioridade, 20, 20, tarefas[i].descricao, 20, 20, tarefas[i].categoria);
+        }
+    }
+
+    FILE *fp;
+    fp = fopen("tarefas_por_prioridade_e_categoria.txt", "w");
+    if(fp == NULL) {
+        printf("Erro ao abrir o arquivo.\n");
+        exit(1);
+    }
+    for(int i = 0; i < numero_tarefas; i++) {
+        if (tarefas[i].prioridade == prioridade && strcmp(tarefas[i].categoria, categoria) == 0) {
+            fprintf(fp, "%d, %s, %s, %s\n", tarefas[i].prioridade, tarefas[i].categoria, tarefas[i].estado, tarefas[i].descricao);
+        }
+    }
+    fclose(fp);
+}
+
+
+
