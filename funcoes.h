@@ -28,4 +28,7 @@ void filtrar_tarefas_por_prioridade(struct tarefa tarefas[], int numero_tarefas,
 void exportar_tarefas_por_prioridade(struct tarefa tarefas[], int numero_tarefas, int prioridade);
 
 void exportar_tarefas_por_categoria(struct tarefa tarefas[], int numero_tarefas, const char categoria[]);
+
+void exportar_tarefas_por_prioridade_e_categoria(struct tarefa tarefas[], int numero_tarefas, int prioridade, const char categoria[]);
+
 #endif //UNTITLED1_BIBLIOTECA_H
