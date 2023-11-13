@@ -91,7 +91,6 @@ int main() {
                   printf("Tarefas exportadas com sucesso.\n");
                   break;
               }
-
             case 7:
               {
                   char categoria[100];
@@ -101,7 +100,7 @@ int main() {
                   printf("Tarefas exportadas com sucesso.\n");
                   break;
               }
-            
+              
             case 8:
               {
                   int prioridade;
@@ -114,13 +113,12 @@ int main() {
                   printf("Tarefas exportadas com sucesso.\n");
                   break;
               }
-            
-               default:
+
+            }
+            default:
                 printf("Opcao invalida.\n"); // Exibe uma mensagem de erro caso digite uma opção errada
-            
         }
     } while(opcao != 9);
 
     return 0; // Finaliza o programa
-    }
 }
