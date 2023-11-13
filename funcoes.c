@@ -30,7 +30,7 @@ int carregar_tarefas(struct tarefa tarefas[]) {
 
 // Adiciona uma nova tarefa à lista
 void adicionar_tarefas(struct tarefa tarefas[], int *numero_tarefas) {
-    if(*numero_tarefas >= 100) { // Verifica se o limite de tarefas foi atingido
+    if(*numero_tarefas >= 100) {
         printf("Limite de tarefas atingido.\n");
         return;
     }
@@ -40,9 +40,12 @@ void adicionar_tarefas(struct tarefa tarefas[], int *numero_tarefas) {
     scanf(" %[^\n]s", tarefas[*numero_tarefas].descricao);
     printf("Digite a categoria da tarefa: ");
     scanf(" %[^\n]s", tarefas[*numero_tarefas].categoria);
+    printf("Digite o estado da tarefa (completo/em andamento/não iniciado): ");
+    scanf(" %[^\n]s", tarefas[*numero_tarefas].estado); // added line to capture task state
     (*numero_tarefas)++;
-    salvar_tarefas(tarefas, *numero_tarefas); // Salva as tarefas atualizadas no arquivo binário
+    salvar_tarefas(tarefas, *numero_tarefas);
 }
+
 
 // Apaga uma tarefa da lista
 void deletar_tarefas(struct tarefa tarefas[], int *numero_tarefas) {
@@ -133,15 +136,16 @@ void filtrar_tarefas_por_prioridade(struct tarefa tarefas[], int numero_tarefas,
 }
 
 // Filtra tarefas por estado
-void filtrar_tarefas_por_estado(struct tarefa tarefas[], int numero_tarefas, const char estado[]) {
-    printf("Tarefas filtradas por estado %s:\n", estado);
-    printf("| %-5s | %-10s | %-20s | %-20s |\n", "ID", "Prioridade", "Descricao", "Categoria");
-    for(int i = 0; i < numero_tarefas; i++) {
-        if(strcmp(tarefas[i].estado, estado) == 0) {
-            printf("| %-5d | %-10d | %-20s | %-20s |\n", i, tarefas[i].prioridade, tarefas[i].descricao, tarefas[i].categoria);
-        }
-    }
-}
+  void filtrar_tarefas_por_estado(struct tarefa tarefas[], int numero_tarefas, const char estado[]) {
+      printf("Tarefas filtradas por estado %s:\n", estado);
+      printf("| %-5s | %-10s | %-*s | %-*s |\n", "ID", "Prioridade", 20, "Descricao", 20, "Categoria");
+      for(int i = 0; i < numero_tarefas; i++) {
+          if(strcmp(tarefas[i].estado, estado) == 0) {
+              printf("| %-5d | %-10d | %-*.*s | %-*.*s |\n", i, tarefas[i].prioridade, 20, 20, tarefas[i].descricao, 20, 20, tarefas[i].categoria);
+          }
+      }
+  }
+
 
 // Filtra tarefas por categoria e prioridade
 void filtrar_tarefas_por_categoria_prioridade(struct tarefa tarefas[], int numero_tarefas, int prioridade, const char categoria[]) {
